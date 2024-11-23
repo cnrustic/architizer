@@ -52,8 +52,26 @@ function architizer_scripts() {
     
     // 加载WordPress默认样式
     wp_enqueue_style('architizer-style', get_stylesheet_uri(), array(), '1.0.0');
+    // FancyBox CSS
+    wp_enqueue_style('fancybox', get_template_directory_uri() . '/assets/css/jquery.fancybox.min.css', array(), '3.5.7');
+
+    // jQuery (如果需要)
+    wp_enqueue_script('jquery');
+    
+    // FancyBox
+    wp_enqueue_script('fancybox', get_template_directory_uri() . '/assets/js/jquery.fancybox.min.js', array('jquery'), '3.5.7', true);
+    
+    // LazyLoad
+    wp_enqueue_script('lazyload', get_template_directory_uri() . '/assets/js/lazyload.min.js', array(), '17.8.3', true);
     
     // 加载JavaScript文件
     wp_enqueue_script('architizer-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '1.0.0', true);
+   
+    // 初始化脚本
+    wp_add_inline_script('lazyload', '
+        var lazyLoadInstance = new LazyLoad({
+            elements_selector: ".lazy"
+        });
+    ');
 }
 add_action('wp_enqueue_scripts', 'architizer_scripts');
