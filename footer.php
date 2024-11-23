@@ -34,16 +34,6 @@
         </div>
 
         <!-- Join Today 栏目 -->
-        <div class="footer-column">
-            <h4>join today</h4>
-            <?php
-            wp_nav_menu(array(
-                'theme_location' => 'footer-join',
-                'container' => false,
-                'menu_class' => 'footer-menu'
-            ));
-            ?>
-        </div>
 
         <!-- Resources 栏目 -->
         <div class="footer-column">
