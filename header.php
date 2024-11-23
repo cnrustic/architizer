@@ -33,24 +33,44 @@
             ));
             ?>
         </nav>
-
+        <!-- 搜索框 -->
+        <?php get_template_part('searchform'); ?>
         <!-- 右侧菜单 -->
-        <div class="header-right">
+        <!-- 认证按钮 -->
+    <div class="auth-buttons">
+        <?php if (is_user_logged_in()) : ?>
             <?php
-            wp_nav_menu(array(
-                'theme_location' => 'menu-right',
-                'menu_id'        => 'right-menu',
-                'menu_class'     => 'right-nav-menu',
-                'container'      => false,
-                'fallback_cb'    => false,
-            ));
+            $current_user = wp_get_current_user();
+            $avatar = get_avatar_url($current_user->ID, array('size' => 48));
             ?>
-            <?php if (!is_user_logged_in()) : ?>
-                <a href="<?php echo esc_url(wp_registration_url()); ?>" class="register-btn">
-                    <?php esc_html_e('注册', 'architizer'); ?>
-                </a>
-            <?php endif; ?>
-        </div>
+            <div class="user-menu">
+                <button class="user-menu-toggle">
+                    <div class="user-avatar">
+                        <img src="<?php echo esc_url($avatar); ?>" alt="<?php echo esc_attr($current_user->display_name); ?>">
+                    </div>
+                    <span><?php echo esc_html($current_user->display_name); ?></span>
+                    <svg width="12" height="12" viewBox="0 0 12 12">
+                        <path d="M6 8L2 4h8l-4 4z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <div class="user-dropdown">
+                    <a href="<?php echo esc_url(get_edit_profile_url()); ?>" class="user-dropdown-item">
+                        <?php esc_html_e('个人资料', 'architizer'); ?>
+                    </a>
+                    <a href="<?php echo esc_url(wp_logout_url(home_url())); ?>" class="user-dropdown-item">
+                        <?php esc_html_e('退出登录', 'architizer'); ?>
+                    </a>
+                </div>
+            </div>
+        <?php else : ?>
+            <a href="<?php echo esc_url(wp_login_url()); ?>" class="login-btn">
+                <?php esc_html_e('登录', 'architizer'); ?>
+            </a>
+            <a href="<?php echo esc_url(wp_registration_url()); ?>" class="register-btn">
+                <?php esc_html_e('注册', 'architizer'); ?>
+            </a>
+        <?php endif; ?>
+    </div>
 
         <!-- 移动端菜单按钮 -->
         <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
@@ -58,7 +78,28 @@
             <span></span>
             <span></span>
         </button>
+        <!-- 移动端菜单 -->
+        <div class="mobile-menu">
+            <?php wp_nav_menu(array('theme_location' => 'menu-1')); ?>
+            <div class="mobile-auth">
+                <?php if (!is_user_logged_in()) : ?>
+                    <a href="<?php echo wp_login_url(); ?>" class="mobile-login-btn">登录</a>
+                    <a href="<?php echo wp_registration_url(); ?>" class="mobile-register-btn">注册</a>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 </header>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    menuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+    });
+});
+</script>
 </body>
 </html>
