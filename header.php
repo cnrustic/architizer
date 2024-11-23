@@ -8,29 +8,57 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
-    <header class="site-header">
-        <div class="site-logo">
-            <a href="<?php echo home_url(); ?>">Architizer</a>
+<header id="masthead" class="site-header">
+    <div class="container">
+        <!-- Logo -->
+        <div class="site-branding">
+            <?php if (has_custom_logo()) : ?>
+                <?php the_custom_logo(); ?>
+            <?php else : ?>
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="site-title">
+                    <?php bloginfo('name'); ?>
+                </a>
+            <?php endif; ?>
         </div>
-        
-        <nav class="main-navigation">
+
+        <!-- 主导航 -->
+        <nav id="site-navigation" class="main-navigation">
             <?php
             wp_nav_menu(array(
-                'theme_location' => 'primary',
-                'container' => false,
-                'menu_class' => 'nav-menu'
+                'theme_location' => 'menu-1',
+                'menu_id'        => 'primary-menu',
+                'menu_class'     => 'nav-menu',
+                'container'      => false,
+                'fallback_cb'    => false,
             ));
             ?>
         </nav>
 
-        <form class="search-form" role="search" method="get" action="<?php echo home_url(); ?>">
-            <input type="search" placeholder="搜索项目" name="s">
-        </form>
-
-        <div class="auth-buttons">
-            <a href="/login" class="login">登录</a>
-            <a href="/register" class="register">注册</a>
+        <!-- 右侧菜单 -->
+        <div class="header-right">
+            <?php
+            wp_nav_menu(array(
+                'theme_location' => 'menu-right',
+                'menu_id'        => 'right-menu',
+                'menu_class'     => 'right-nav-menu',
+                'container'      => false,
+                'fallback_cb'    => false,
+            ));
+            ?>
+            <?php if (!is_user_logged_in()) : ?>
+                <a href="<?php echo esc_url(wp_registration_url()); ?>" class="register-btn">
+                    <?php esc_html_e('注册', 'architizer'); ?>
+                </a>
+            <?php endif; ?>
         </div>
-    </header>
+
+        <!-- 移动端菜单按钮 -->
+        <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
 </body>
 </html>
