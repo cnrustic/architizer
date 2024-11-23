@@ -1,19 +1,22 @@
-<form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
-    <div class="search-wrapper">
+<?php
+/**
+ * 搜索表单模板
+ *
+ * @package Architizer
+ */
+?>
+<form role="search" method="get" class="search-form" action="<?php echo home_url('/'); ?>">
+    <div class="search-form-wrapper">
         <input type="search" 
                class="search-input" 
-               placeholder="<?php echo esc_attr_x('搜索项目...', 'placeholder', 'architizer'); ?>"
+               placeholder="<?php echo esc_attr_x('搜索项目、建筑师...', 'placeholder', 'architizer'); ?>"
                value="<?php echo get_search_query(); ?>" 
-               name="s" />
-        
-        <!-- 限制搜索范围为项目 -->
-        <input type="hidden" name="post_type" value="project" />
-        
+               name="s" 
+               title="<?php echo esc_attr_x('搜索：', 'label', 'architizer'); ?>" />
         <button type="submit" class="search-submit">
-            <span class="screen-reader-text"><?php echo esc_html_x('搜索', 'submit button', 'architizer'); ?></span>
-            <svg class="icon-search" width="20" height="20" viewBox="0 0 20 20">
-                <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+            <svg class="search-icon" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
             </svg>
         </button>
     </div>
-</form> 
+</form>
