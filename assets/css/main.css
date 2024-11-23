@@ -724,3 +724,10 @@ body:not(.home) #page {
         grid-template-columns: 1fr;
     }
 }
+/* 项目网格布局 */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}

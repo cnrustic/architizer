@@ -43,3 +43,17 @@ function architizer_setup() {
         // ... 其他设置
     ]);
 }
+/**
+ * Enqueue scripts and styles.
+ */
+function architizer_scripts() {
+    // 主样式文件
+    wp_enqueue_style('architizer-main', get_template_directory_uri() . '/assets/css/main.css', array(), '1.0.0');
+
+    // WordPress默认样式
+    wp_enqueue_style('architizer-style', get_stylesheet_uri(), array(), _S_VERSION);
+
+    // 如果需要添加JavaScript
+    wp_enqueue_script('architizer-main', get_template_directory_uri() . '/js/main.js', array('jquery'), '1.0.0', true);
+}
+add_action('wp_enqueue_scripts', 'architizer_scripts');
