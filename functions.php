@@ -84,3 +84,14 @@ function architizer_scripts() {
     ');
 }
 add_action('wp_enqueue_scripts', 'architizer_scripts');
+function theme_enqueue_scripts() {
+    // 注册并加载导航脚本
+    wp_enqueue_script(
+        'theme-navigation',
+        get_template_directory_uri() . '/assets/js/navigation.js',
+        array(), // 依赖
+        '1.0.0', // 版本号
+        true // 在 footer 加载
+    );
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
