@@ -67,9 +67,9 @@ body {
    ========================================================================== */
 /* 头部基础样式 */
 .site-header {
-    background: var(--color-black);
+    background:#000;
     height: 60px;
-    position: fixed;
+    position: relative;
     width: 100%;
     top: 0;
     left: 0;
@@ -80,15 +80,17 @@ body {
     max-width: var(--container-max-width);
     height: 100%;
     margin: 0 auto;
-    padding: 0 var(--container-padding);
+    padding: 15px;
     display: flex;
     align-items: center;
+    gap: 20px; /* LOGO和导航之间的间距 */
 }
 
 /* Logo 区域 */
 .site-branding {
     display: flex;
     align-items: center;
+    flex-shrink: 0; /* 防止LOGO缩小 */
 }
 
 .custom-logo-link {
@@ -115,6 +117,7 @@ body {
 
 .main-navigation {
     margin-left: var(--spacing-xl);
+    flex-grow: 1; /* 允许导航栏占据剩余空间 */
 }
 
 .nav-menu,
@@ -149,19 +152,93 @@ body {
 .right-nav-menu a:hover {
     color: var(--color-white);
 }
+/* 搜索框基础样式 */
+.search-box {
+    position: relative;
+    flex-grow: 1;
+    max-width: 300px;
+}
 
+.search-box form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search-box input[type="search"] {
+    width: 100%;
+    padding: 8px 40px 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+/* 搜索框激活状态 */
+.search-box input[type="search"]:focus {
+    background: #fff;
+    color: #000;
+}
+
+/* 搜索框占位符样式 */
+.search-box input[type="search"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-box input[type="search"]:focus::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* 搜索按钮样式 */
+.search-box button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 5px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.search-box input[type="search"]:focus + button,
+.search-box button:hover {
+    color: #000;
+}
 /* 右侧菜单 */
 .header-right {
     margin-left: auto;
     display: flex;
     align-items: center;
 }
-/* 认证按钮组 */
-.auth-buttons {
+/* 桌面端认证按钮样式 */
+.auth-buttons.desktop-only {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    margin-left: var(--spacing-md);
+    gap: 15px;
+    margin-left: 20px;
+}
+
+.auth-buttons .login-btn,
+.auth-buttons .register-btn {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.auth-buttons .login-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.auth-buttons .register-btn {
+    background: #0066FF;
+    border: 1px solid #0066FF;
 }
 
 /* 登录按钮 */
@@ -262,7 +339,28 @@ body {
 .user-dropdown-item:hover {
     background: var(--color-background);
 }
+/* 移动端菜单按钮 */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: var(--spacing-xs);
+    cursor: pointer;
+    margin-left: auto;
+}
 
+.menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--color-white);
+    margin: 4px 0;
+}
+/* 隐藏桌面端的移动菜单相关元素 */
+.menu-toggle,
+.mobile-menu {
+    display: none;
+}
 /* 响应式调整 */
 @media screen and (max-width: 768px) {
     .auth-buttons {
@@ -303,24 +401,149 @@ body {
         background: rgba(255, 255, 255, 0.1);
         color: var(--color-white);
     }
-}
-/* 移动端菜单按钮 */
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    padding: var(--spacing-xs);
-    cursor: pointer;
-    margin-left: auto;
+    /* 隐藏桌面端元素 */
+    .desktop-only,
+    .main-navigation {
+        display: none !important;
+    }
+    
+    /* 显示移动菜单按钮 */
+    .menu-toggle {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 24px;
+        height: 18px;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin-left: auto;
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: #fff;
+        transition: 0.3s ease;
+    }
+    /* 汉堡按钮动画 */
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    /* 移动菜单样式 */
+    .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background: #000;
+        z-index: 99;
+        overflow-y: auto;
+    }
+    
+    /* 移动菜单显示状态 */
+    .mobile-menu.active {
+        display: block !important;
+        position: fixed;
+        top: 60px; /* 根据header高度调整 */
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background-color: #000;
+        z-index: 999;
+        overflow-y: auto;
+    }
+
+    /* 移动菜单内容样式 */
+    .mobile-menu-inner {
+        padding: 20px;
+    }
+    
+    /* 移动端搜索框样式 */
+    .mobile-menu .search-box {
+        margin-bottom: 20px;
+    }
+    
+    .mobile-menu .search-box form {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 8px 12px;
+    }
+    
+    .mobile-menu .search-box input[type="search"] {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: #fff;
+        padding: 8px;
+        font-size: 16px;
+        outline: none;
+    }
+    .mobile-menu .search-box input[type="search"]::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .mobile-menu .search-box button {
+        background: transparent;
+        border: none;
+        padding: 8px;
+        color: #fff;
+        cursor: pointer;
+    }
+    .mobile-menu .search-box input[type="search"]:focus {
+        background: #fff;
+        color: #000;
+    }
+    
+    /* 移动端导航菜单样式 */
+    .mobile-menu .nav-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .mobile-menu .nav-menu li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .mobile-menu .nav-menu a {
+        display: block;
+        padding: 15px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    
+    /* 移动端认证按钮样式 */
+    .mobile-auth {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .mobile-auth a {
+        display: block;
+        padding: 12px 15px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+    }
 }
 
-.menu-toggle span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--color-white);
-    margin: 4px 0;
-}
 /* ==========================================================================
    3. 主内容区域
    ========================================================================== */
@@ -869,6 +1092,7 @@ body:not(.home) #page {
     font-size: var(--font-size-lg);
     color: var(--color-text);
 }
+
 /* ==========================================================================
    6. 响应式布局
    ========================================================================== */
@@ -918,16 +1142,27 @@ body:not(.home) #page {
     }
 
     .menu-toggle {
-        display: block;
-        position: absolute;
+        display: flex !important; /* 强制显示 */
+        position: relative;
         right: 15px;
         top: 50%;
         transform: translateY(-50%);
         width: 24px;
-        height: 24px;
+        height: 18px;
         padding: 0;
-        background: none;
+        background: transparent;
         border: none;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+        margin-left: 1rem;
+        z-index: 100;
+    }
+    .menu-toggle span {
+        width: 100%;
+        height: 2px;
+        background-color: #fff; /* 白色汉堡按钮 */
+        transition: all 0.3s;
     }
 
     .main-navigation,
@@ -1022,6 +1257,13 @@ body:not(.home) #page {
     .footer-bottom .copyright {
         flex-wrap: wrap;
     }
+    .site-footer .container {
+        justify-content: flex-start; /* 改为左对齐 */
+    }
+    
+    .site-footer .footer-logo {
+        margin-right: auto; /* 让logo居左 */
+    }
     /* 搜索框样式 */
     .search-form {
         position: absolute;
@@ -1032,7 +1274,24 @@ body:not(.home) #page {
         margin: 0;
         padding: 10px 0;
     }
+    .mobile-menu .search-box {
+        max-width: none;
+        margin: 0 15px 20px;
+    }
 
+    .mobile-menu .search-box input[type="search"] {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px 40px 12px 15px;
+        font-size: 16px;
+    }
+
+    .mobile-menu .search-box input[type="search"]:focus {
+        background: #fff;
+    }
+
+    .mobile-menu .search-box button {
+        right: 12px;
+    }
     .search-form-wrapper {
         width: 100%;
     }
@@ -1043,27 +1302,42 @@ body:not(.home) #page {
         border: none;
         width: 100%;
     }
+    
     .mobile-menu {
-        position: fixed;
-        top: 50px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: #333;
-        padding: 20px;
         display: none;
-        overflow-y: auto;
+        position: fixed;
+        top: 60px; /* 根据header高度调整 */
+        left: 0;
+        width: 100%;
+        background: #000;
+        padding: 20px;
+        z-index: 99;
     }
 
+    /* 移动菜单展开时的样式 */
     .mobile-menu.active {
         display: block;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 1000;
     }
+    /* 移动菜单中的认证按钮样式 */
     .mobile-auth {
-        padding: 20px 0;
-        border-top: 1px solid rgba(255,255,255,0.1);
         margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
     }
-    
+    .mobile-auth a {
+        display: block;
+        padding: 10px 0;
+        color: #fff;
+        text-decoration: none;
+    }
     .mobile-login-btn,
     .mobile-register-btn {
         display: block;
@@ -1273,5 +1547,18 @@ body:not(.home) #page {
         width: 100%;
         border-radius: 0;
         justify-content: center;
+    }
+    /* 隐藏桌面端元素 */
+    .desktop-only,
+    .main-navigation {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: block;
+    }
+    
+    .menu-toggle.mobile-only {
+        display: flex;
     }
 }
