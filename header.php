@@ -90,16 +90,3 @@
         </div>
     </div>
 </header>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mobileMenu = document.querySelector('.mobile-menu');
-
-    menuToggle.addEventListener('click', function() {
-        mobileMenu.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-    });
-});
-</script>
-</body>
-</html>
